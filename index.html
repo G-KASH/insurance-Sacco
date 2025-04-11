@@ -21,7 +21,7 @@
     <a href="#services">Services</a>
     <a href="#quote">Get a Quote</a>
     <a href="#contact">Contact</a>
-    <!-- Hidden Image Blocks -->
+  
     <div class="hover-image hover-home"></div>
     <div class="hover-image hover-about"></div>
     <div class="hover-image hover-services"></div>
@@ -87,10 +87,14 @@
   </section>
 
   <section class="section" id="contact">
-    <h2>Contact Us</h2>
-    <form onsubmit="event.preventDefault(); alert('Thanks for contacting us!')">
+    <h2>Contact Us for more information</h2>
+    <form onsubmit="event.preventDefault(); alert('event')">
       <input type="text" placeholder="Your Name" required />
       <input type="email" placeholder="Your Email" required />
+      <input type="text" placeholder="Enter your full name" required>
+<input type="number" id="age" placeholder="Your age" required>
+<input type="number" id="coverage" placeholder="Coverage amount in $" required>
+
       <textarea placeholder="Your Message" rows="5" required></textarea>
       <button type="submit">Send Message</button>
     </form>
