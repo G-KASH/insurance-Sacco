@@ -1,102 +1,80 @@
-document.getElementById("quoteForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const age = parseInt(document.getElementById("age").value);
-    const coverage = parseInt(document.getElementById("coverage").value);
-    const type = document.getElementById("type").value;
+// Wait for the DOM to be fully loaded before executing any JavaScript
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Toggle Dark Mode functionality
+    const toggleButton = document.getElementById('toggle-button');
   
-    let baseRate = 0.02;
-    if (type === "health") baseRate = 0.015;
-    else if (type === "car") baseRate = 0.03;
+    // Ensure the button exists before adding the event listener
+    if (toggleButton) {
+      // Add a click event listener to toggle dark mode
+      toggleButton.addEventListener('click', function () {
+        // Toggle the 'dark-mode' class on the body element
+        document.body.classList.toggle('dark-mode');
   
-    let ageFactor = age > 50 ? 1.5 : 1.2;
-    const quote = (coverage * baseRate * ageFactor).toFixed(2);
-    document.getElementById("result").textContent = `Estimated Monthly Premium: $${quote}`;
-    
-    this.reset(); // ← clears the form
-  });  
-
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const app = express();
-
-app.use(express.json());
-
-// Initialize database
-const db = new sqlite3.Database(':memory:', (err) => {
-    if (err) {
-        console.error('Error opening database:', err.message);
-    } else {
-        console.log('Connected to SQLite database.');
-        db.run(`
-            CREATE TABLE claims (
-                claim_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id INTEGER NOT NULL,
-                status TEXT NOT NULL,
-                submission_date TEXT NOT NULL,
-                last_updated TEXT NOT NULL
-            )
-        `);
+        // Optionally, save the dark mode state in localStorage to persist it
+        if (document.body.classList.contains('dark-mode')) {
+          localStorage.setItem('darkMode', 'enabled');
+        } else {
+          localStorage.setItem('darkMode', 'disabled');
+        }
+      });
     }
-});
-
-// Submit a new claim
-app.post('/claims', (req, res) => {
-    const { user_id, status } = req.body;
-    const submissionDate = new Date().toISOString();
-    const query = `
-        INSERT INTO claims (user_id, status, submission_date, last_updated)
-        VALUES (?, ?, ?, ?)
-    `;
-
-    db.run(query, [user_id, status, submissionDate, submissionDate], function (err) {
-        if (err) {
-            res.status(500).send(err.message);
-        } else {
-            res.status(201).json({ claim_id: this.lastID, user_id, status });
-        }
+  
+    // Check if dark mode was previously enabled and apply the state when the page loads
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  
+    // Quote Form Handling
+    document.getElementById("quoteForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      // Get form data
+      const age = parseInt(document.getElementById("age").value);
+      const coverage = parseInt(document.getElementById("coverage").value);
+      const type = document.getElementById("type").value;
+  
+      // Basic input validation
+      if (isNaN(age) || isNaN(coverage)) {
+          alert("Please enter valid numbers for age and coverage.");
+          return; // Prevent submission if validation fails
+      }
+  
+      let baseRate = 0.02;
+      if (type === "health") baseRate = 0.015;
+      else if (type === "car") baseRate = 0.03;
+  
+      let ageFactor = age > 50 ? 1.5 : 1.2;
+      const quote = (coverage * baseRate * ageFactor).toFixed(2);
+  
+      document.getElementById("result").textContent = `Estimated Monthly Premium: $${quote}`;
+      
+      // Reset the form after submission
+      this.reset();
     });
-});
-
-// Get claim status
-app.get('/claims/:id', (req, res) => {
-    const query = 'SELECT * FROM claims WHERE claim_id = ?';
-    db.get(query, [req.params.id], (err, row) => {
-        if (err) {
-            res.status(500).send(err.message);
-        } else if (!row) {
-            res.status(404).send('Claim not found.');
-        } else {
-            res.json(row);
-        }
+  
+    // Newsletter Form Handling
+    document.getElementById("newsletterForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("newsletterEmail").value;
+  
+      // Simulate success message
+      document.getElementById("newsletterResult").textContent = `Thanks for subscribing, ${email}!`;
+  
+      // Reset form
+      this.reset();
     });
-});
-
-// Update claim status
-app.put('/claims/:id', (req, res) => {
-    const { status } = req.body;
-    const lastUpdated = new Date().toISOString();
-    const query = `
-        UPDATE claims
-        SET status = ?, last_updated = ?
-        WHERE claim_id = ?
-    `;
-
-    db.run(query, [status, lastUpdated, req.params.id], function (err) {
-        if (err) {
-            res.status(500).send(err.message);
-        } else if (this.changes === 0) {
-            res.status(404).send('Claim not found.');
-        } else {
-            res.send('Claim updated successfully.');
-        }
-    });
-});
-
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
-function submitContactForm(e) {
-    e.preventDefault();
-    alert('Thanks for contacting us! We will get back to you soon.');
-    e.target.reset();
-  }
+  
+    // Contact Form Handling
+    function submitContactForm(e) {
+      e.preventDefault();
+      alert('Thanks for contacting us! We will get back to you soon.');
+      e.target.reset();
+    }
+  
+    document.getElementById("contactForm").addEventListener("submit", submitContactForm);
+  
+  });
   
