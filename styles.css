@@ -1,0 +1,109 @@
+    /* Page-specific styles */
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+  
+      header {
+        background-color: #004aad;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        animation: fadeInDown 1s ease;
+      }
+  
+      nav {
+        margin-top: 0.5rem;
+      }
+  
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+  
+      nav a:hover {
+        color: #ffd700;
+      }
+  
+      main {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        animation: fadeIn 1.5s ease;
+      }
+  
+      section {
+        margin-bottom: 2rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+  
+      section:hover {
+        transform: translateY(-5px);
+      }
+  
+      h2, h3 {
+        color: #004aad;
+      }
+  
+      ul {
+        list-style: inside square;
+        padding-left: 1rem;
+      }
+  
+      footer {
+        background-color: #004aad;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+  
+      @keyframes fadeInDown {
+        0% { opacity: 0; transform: translateY(-20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+  
+      @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+      }
+  
+      /* Responsive */
+      @media (max-width: 768px) {
+        main {
+          padding: 1rem;
+        }
+  
+        section {
+          padding: 1rem;
+        }
+      }
+      #backToTop {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #004aad;
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        display: none;
+        z-index: 999;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      
+   
+      
+      
